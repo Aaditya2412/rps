@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock Paper Scissors - Multiplayer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #EFDFBB;
+            margin: 0;
+            padding: 0;
+            color: #fff;
+        }
+
+        h1 {
+            color: #722F37;
+        }
+
+        .choices {
+            background: #722F37;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+
+        .choice-img {
+            width: 100px;
+            margin: 10px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            border-radius: 10px;
+        }
+
+        .choice-img:hover {
+            transform: scale(1.1);
+            filter: brightness(1.2);
+        }
+
+        .result {
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 20px;
+            color: #722F37;
+        }
+
+        #result-image img {
+            width: 200px;
+            margin-top: 10px;
+            border-radius: 10px;
+        }
+
+        .container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        button {
+            background-color: #ffcc00;
+            color: #1e1e2e;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+
+        button:hover {
+            background-color: #ffaa00;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Rock Paper Scissors - Multiplayer</h1>
+    <div style="display: flex; justify-content: space-around; align-items: center; margin-top: 20px;">
+        <div class="choices">
+            <h2>Player 1</h2>
+            <p id="player1-prompt">Choose your move:</p>
+            <img src="Screenshot 2025-03-30 143158.png" alt="Rock" class="choice-img"
+                onclick="setChoice('player1', 'rock')" style="cursor: pointer; width: 100px; margin: 5px;"><br>
+            <img src="Screenshot 2025-03-30 143150.png" alt="Paper" class="choice-img"
+                onclick="setChoice('player1', 'paper')" style="cursor: pointer; width: 100px; margin: 5px;"><br>
+            <img src="Screenshot 2025-03-30 143208.png" alt="Scissors" class="choice-img"
+                onclick="setChoice('player1', 'scissors')" style="cursor: pointer; width: 100px; margin: 5px;">
+        </div>
+        <div class="choices">
+            <h2>Player 2</h2>
+            <p id="player2-prompt">Choose your move:</p>
+            <img src="Screenshot 2025-03-30 143529.png" alt="Rock" class="choice-img"
+                onclick="setChoice('player2', 'rock')" style="cursor: pointer; width: 100px; margin: 5px;"><br>
+            <img src="Screenshot 2025-03-30 143543.png" alt="Paper" class="choice-img"
+                onclick="setChoice('player2', 'paper')" style="cursor: pointer; width: 100px; margin: 5px;"><br>
+            <img src="Screenshot 2025-03-30 143537.png" alt="Scissors" class="choice-img"
+                onclick="setChoice('player2', 'scissors')" style="cursor: pointer; width: 100px; margin: 5px;">
+        </div>
+    </div>
+    <div class="result" id="result"></div>
+    <div id="result-image" style="margin-top: 20px;"></div>
+
+    <script>
+        const playerChoices = {
+            player1: null,
+            player2: null
+        };
+
+        function setChoice(player, choice) {
+            playerChoices[player] = choice;
+            document.getElementById(`${player}-prompt`).textContent = `You chose ${choice}.`;
+
+            if (playerChoices.player1 && playerChoices.player2) {
+                determineWinner();
+            }
+        }
+
+        function determineWinner() {
+            const { player1, player2 } = playerChoices;
+            let result = '';
+            let imagePath = '';
+
+            if (player1 === player2) {
+                result = `It's a tie! Both chose ${player1}.`;
+                imagePath = 'Screenshot 2025-03-30 144912.png'; 
+            } else if (
+                (player1 === 'rock' && player2 === 'scissors') ||
+                (player1 === 'paper' && player2 === 'rock') ||
+                (player1 === 'scissors' && player2 === 'paper')
+            ) {
+                result = `Player 1 wins! ${player1} beats ${player2}.`;
+                imagePath = 'Screenshot 2025-03-30 145243.png'; 
+            } else {
+                result = `Player 2 wins! ${player2} beats ${player1}.`;
+                imagePath = 'Screenshot 2025-03-30 145212.png'; 
+            }
+
+            document.getElementById('result').textContent = result;
+            document.getElementById('result-image').innerHTML = `<img src="${imagePath}" alt="Result Image" style="width: 500px; height: 200px; border-radius: 10px;">`;
+            resetChoices();
+        }
+
+        function resetChoices() {
+            playerChoices.player1 = null;
+            playerChoices.player2 = null;
+            document.getElementById('player1-prompt').textContent = 'Choose your move:';
+            document.getElementById('player2-prompt').textContent = 'Choose your move:';
+        }
+    </script>
+</body>
+
+</html>
